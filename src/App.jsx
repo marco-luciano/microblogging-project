@@ -10,7 +10,6 @@ function App() {
         <ContainerMain> 
         </ContainerMain>
       </Center>
-      <Button colorScheme="blue">Button</Button>
     </div>
   );
 }
