@@ -5,7 +5,7 @@ import './ContainerMain.sass';
 
 const ContainerMain = () => {
     return (
-        <Container class="ContainerMain">
+        <Container className="ContainerMain" maxW='600px'>
             <Flex direction="column" justify="center" align="center">
                 <TextAreaPost></TextAreaPost>
                 <TweetList></TweetList>
