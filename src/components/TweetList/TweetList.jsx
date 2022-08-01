@@ -5,7 +5,6 @@ import './TweetList.sass';
 
 const TweetList = (props) => {
 
-
     return (
         <div className="TweetList">
             <VStack spacing={5}>

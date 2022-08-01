@@ -8,7 +8,6 @@ const TextAreaPost = (props) => {
 
     const [tweetText, setTweetText] = useState("");
     const [limitExceeded, setLimitExceeded] = useState(true);
-    const [alertDisplay, setAlertDisplay] = useState("none");
     const textareaRef = useRef();
 
     const formatText = (text) => {
@@ -20,9 +19,13 @@ const TextAreaPost = (props) => {
         setLimitExceeded(outOfLimits);
 
         // if the text is over CHAR_LIMIT chars, display the alert
-        if (text.length > CHAR_LIMIT) {
-            setAlertDisplay("block");
-        }
+
+        (text.length > CHAR_LIMIT) ? props.setAlertDisplayText(MSG_CHAR_LIMIT) : props.setAlertDisplayText("");
+
+    }
+
+    const handleOnClick = (text) => {
+        props.onBtnTweetClick(text);
     }
 
     return (
@@ -30,8 +33,8 @@ const TextAreaPost = (props) => {
             <Flex direction="column" gap={2}>
                 <Textarea ref={textareaRef} onChange={event => formatText(event.target.value)} placeholder={MSG_TEXTAREA}></Textarea>
                 <Flex direction="row" justifyContent="space-between">
-                    <Box> <Alert display={alertDisplay} className="AlertCharLimit" status='error'>{MSG_CHAR_LIMIT}</Alert></Box>
-                    <Box> <BtnTweet textareaRef={textareaRef} setTweetText={setTweetText} tweetText={tweetText} handleOnClick={props.onBtnTweetClick} limitExceeded={limitExceeded}></BtnTweet> </Box>
+                    <Box> <Alert display={(props.alertDisplayText === "") ? "none" : "block"} className="AlertCharLimit" status='error'>{props.alertDisplayText}</Alert></Box>
+                    <Box> <BtnTweet btnTweetLoad={props.btnTweetLoad} textareaRef={textareaRef} setTweetText={setTweetText} tweetText={tweetText} handleOnClick={handleOnClick} limitExceeded={limitExceeded}></BtnTweet> </Box>
                 </Flex>
             </Flex>
         </div>
