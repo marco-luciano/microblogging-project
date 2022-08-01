@@ -8,9 +8,9 @@ const TweetList = (props) => {
 
     return (
         <div className="TweetList">
-            <VStack spacing={5}> 
+            <VStack spacing={5}>
                 {props.list.map((tweet) => {
-                    return <Tweet key={nanoid()} user={tweet.user} text={tweet.text} date={tweet.date} />
+                    return <Tweet key={nanoid()} user={tweet.userName} text={tweet.content} date={tweet.date} />
                 })}
             </VStack>
         </div>

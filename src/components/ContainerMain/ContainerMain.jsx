@@ -3,16 +3,21 @@ import TextAreaPost from '../TextAreaPost/TextAreaPost';
 import TweetList from '../TweetList/TweetList';
 import localforage from 'localforage';
 import { formatRFC3339 } from 'date-fns';
-import { nanoid } from 'nanoid';
-import './ContainerMain.sass';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import './ContainerMain.sass';
+import { URL_BASE_TWEET } from '../../constants';
 
 const ContainerMain = () => {
 
     const [tweetList, setTweetList] = useState([]);
 
     const getTweets = () => {
-        localforage.getItem('tweetList').then((result) => {
+        axios.get(URL_BASE_TWEET + "/tweet")
+        .then((response) => {
+            return response.data.tweets;
+        })
+        .then((result) => {
             let list = result ?? [];
             setTweetList(list);
             console.log("Tweets loaded", result);
@@ -22,16 +27,17 @@ const ContainerMain = () => {
     const setTweetHandler = (text) => {
 
         const tweet = {
-            id: nanoid(),
-            user: "John Doe",
-            text: text,
+            content: text,
+            userName: "John Doe",
             date: formatRFC3339(new Date(), { fractionDigits: 3 }),
         };
 
         setTweetList((pre) => [tweet, ...pre]);
 
-        localforage.setItem('tweetList', [tweet, ...tweetList]).then((result) => {
-            console.log("Tweet saved", result);
+        axios.post(URL_BASE_TWEET + "/tweet", tweet).then((response) => {
+            if (response.status === 200) {
+                console.log("Tweet saved", response);
+            }
         });
 
     };
