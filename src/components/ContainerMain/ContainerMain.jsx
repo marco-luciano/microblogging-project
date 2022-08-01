@@ -1,4 +1,4 @@
-import { Center, Container, Box, Flex } from '@chakra-ui/react';
+import {Container, Flex } from '@chakra-ui/react';
 import TextAreaPost from '../TextAreaPost/TextAreaPost';
 import TweetList from '../TweetList/TweetList';
 import localforage from 'localforage';
@@ -20,7 +20,7 @@ const ContainerMain = () => {
     };
 
     const setTweetHandler = (text) => {
-        
+
         const tweet = { 
             id: nanoid(),
             user: "Marco",

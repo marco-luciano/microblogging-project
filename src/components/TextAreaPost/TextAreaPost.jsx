@@ -1,5 +1,5 @@
-import { Alert, Box, Button, Flex, Textarea } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { Alert, Box, Flex, Textarea } from "@chakra-ui/react";
+import { useRef, useState } from "react";
 import BtnTweet from "../BtnTweet/BtnTweet";
 import { CHAR_LIMIT, MSG_TEXTAREA, MSG_CHAR_LIMIT } from "../../constants";
 import './TextAreaPost.sass';

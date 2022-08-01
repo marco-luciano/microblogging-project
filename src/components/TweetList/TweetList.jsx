@@ -1,7 +1,6 @@
 import { VStack } from "@chakra-ui/react";
 import Tweet from "../Tweet/Tweet";
 import { nanoid } from "nanoid";
-import { formatRFC3339 } from 'date-fns';
 import './TweetList.sass';
 
 const TweetList = (props) => {
