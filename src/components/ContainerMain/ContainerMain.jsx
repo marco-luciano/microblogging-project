@@ -1,9 +1,9 @@
 import { Container, Flex } from '@chakra-ui/react';
-import TextAreaPost from '../TextAreaPost/TextAreaPost';
-import TweetList from '../TweetList/TweetList';
 import { formatRFC3339 } from 'date-fns';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import TextAreaPost from '../TextAreaPost/TextAreaPost';
+import TweetList from '../TweetList/TweetList';
 import './ContainerMain.sass';
 import { URL_BASE_TWEET, MSG_SERVER_LOAD_ERROR, MSG_SERVER_SAVE_ERROR } from '../../constants';
 
