@@ -1,2 +1,21 @@
+@use 'src/variables' as *
+
 .PageProfile
-    display: block
+    color: $secondaryColor
+
+.inputSaveUserName
+    height: 61px !important
+
+.btnSaveUserName
+    display: block !important
+    color: $secondaryColor
+    background-color: $btnTweetColor !important
+    margin-left: auto !important
+    margin-right: 0 !important
+    max-width: 68px !important
+    margin-top: 15px
+
+    &:hover
+        color: $btnTweetColor
+        background-color: $secondaryColor !important
+        border-color: $secondaryColor

@@ -4,14 +4,15 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import TextAreaPost from '../TextAreaPost/TextAreaPost';
 import TweetList from '../TweetList/TweetList';
-import './ContainerMain.sass';
 import { URL_BASE_TWEET, MSG_SERVER_LOAD_ERROR, MSG_SERVER_SAVE_ERROR } from '../../constants';
+import './ContainerMain.sass';
 
-const ContainerMain = () => {
+const ContainerMain = (props) => {
 
     const [tweetList, setTweetList] = useState([]);
     const [btnTweetLoad, setBtnTweetLoad] = useState(false);
     const [alertDisplayText, setAlertDisplayText] = useState("");
+
 
     const getTweets = () => {
         axios.get(URL_BASE_TWEET + "/tweet")
@@ -35,7 +36,7 @@ const ContainerMain = () => {
 
         const tweet = {
             content: text,
-            userName: "John Doe", // hard-coded for now
+            userName: props.userName,
             date: formatRFC3339(new Date(), { fractionDigits: 3 }),
         };
 
