@@ -2,6 +2,7 @@ import { Container, Flex } from '@chakra-ui/react';
 import { formatRFC3339 } from 'date-fns';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import tweetListContext from '../../context';
 import TextAreaPost from '../TextAreaPost/TextAreaPost';
 import TweetList from '../TweetList/TweetList';
 import { URL_BASE_TWEET, MSG_SERVER_LOAD_ERROR, MSG_SERVER_SAVE_ERROR } from '../../constants';
@@ -9,10 +10,9 @@ import './ContainerMain.sass';
 
 const ContainerMain = (props) => {
 
-    const [tweetList, setTweetList] = useState([]);
     const [btnTweetLoad, setBtnTweetLoad] = useState(false);
     const [alertDisplayText, setAlertDisplayText] = useState("");
-
+    const [tweetList, setTweetList] = useState([]);
 
     const getTweets = () => {
         axios.get(URL_BASE_TWEET + "/tweet")
@@ -57,12 +57,14 @@ const ContainerMain = (props) => {
     useEffect(() => getTweets(), []);
 
     return (
-        <Container className="ContainerMain" maxW='600px'>
-            <Flex direction="column" justify="center" align="center">
-                <TextAreaPost alertDisplayText={alertDisplayText} setAlertDisplayText={setAlertDisplayText} btnTweetLoad={btnTweetLoad} onBtnTweetClick={setTweetHandler}></TextAreaPost>
-                <TweetList list={tweetList}></TweetList>
-            </Flex>
-        </Container>
+        <tweetListContext.Provider value={{ tweetList, setTweetList: setTweetList }}>
+            <Container className="ContainerMain" maxW='600px'>
+                <Flex direction="column" justify="center" align="center">
+                    <TextAreaPost alertDisplayText={alertDisplayText} setAlertDisplayText={setAlertDisplayText} btnTweetLoad={btnTweetLoad} onBtnTweetClick={setTweetHandler}></TextAreaPost>
+                    <TweetList></TweetList>
+                </Flex>
+            </Container>
+        </tweetListContext.Provider>
     );
 }
 export default ContainerMain;

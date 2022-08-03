@@ -1,9 +1,9 @@
-/*import { createContext } from 'react';
+import { createContext } from 'react';
 
-const userContext = createContext({
-    userName: "Foo",
-    setUserName: (user) => {}
+const tweetListContext = createContext({
+    tweetList: [],
+    setTweetList: (tweetList) => {}
 });
 
-export default userContext;*/
+export default tweetListContext;
 
