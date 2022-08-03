@@ -1,7 +1,7 @@
 import { VStack } from "@chakra-ui/react";
 import Tweet from "../Tweet/Tweet";
 import { nanoid } from "nanoid";
-import tweetListContext from '../../context';
+import tweetListContext from '../../contexts/tweetListContext';
 import './TweetList.sass';
 import { useContext } from "react";
 
