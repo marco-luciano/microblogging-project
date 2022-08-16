@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
 import { Flex } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import localforage from 'localforage';
 import Navbar from './components/Navbar/Navbar';
 import ContainerMain from './components/ContainerMain/ContainerMain';
 import PageProfile from './components/PageProfile/PageProfile';
