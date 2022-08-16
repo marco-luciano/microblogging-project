@@ -5,25 +5,12 @@ import localforage from 'localforage';
 import Navbar from './components/Navbar/Navbar';
 import ContainerMain from './components/ContainerMain/ContainerMain';
 import PageProfile from './components/PageProfile/PageProfile';
+import useUserName from './utils/Db';
 import './App.sass';
 
 function App() {
 
-    const [userName, setUserName] = useState("User Name");
-
-    const getUserName = () => {
-        localforage.getItem('userName').then((value) => {
-            setUserName(value);
-        });
-    };
-
-    const handleSetUserName = (userName) => {
-        localforage.setItem('userName', userName).then(() => {
-            setUserName(userName);
-        });
-    }
-
-    useEffect(() => getUserName(), []);
+    const [userName, setUserName] = useUserName("User Name");
 
     return (
         <div className="App">
@@ -31,8 +18,8 @@ function App() {
                 <Navbar />
                 <Router>
                     <Routes>
-                        <Route path="/" element={<ContainerMain userName={userName} setUserName={setUserName} />} />
-                        <Route path="/profile" element={<PageProfile userName={userName} setUserName={handleSetUserName} />} />
+                        <Route path="/" element={<ContainerMain userName={userName ?? "User Name"} setUserName={setUserName} />} />
+                        <Route path="/profile" element={<PageProfile userName={userName ?? "User Name"} setUserName={setUserName} />} />
                     </Routes>
                 </Router>
             </Flex>
