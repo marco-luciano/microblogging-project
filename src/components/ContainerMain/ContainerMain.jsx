@@ -15,8 +15,7 @@ const ContainerMain = (props) => {
     const [tweetList, setTweetList] = useState([]);
 
     const getTweets = () => {
-        let timer = setTimeout(() => {
-            axios.get(URL_BASE_TWEET + "/tweet")
+        axios.get(URL_BASE_TWEET + "/tweet")
             .then((response) => {
                 return response.data.tweets;
             })
@@ -29,11 +28,6 @@ const ContainerMain = (props) => {
                 console.error("Error loading tweets", error);
                 setAlertDisplayText(MSG_SERVER_LOAD_ERROR);
             });
-        }, TIME_LOAD_TWEETS);
-
-        return () => {
-            clearTimeout(timer);
-        }
     };
 
     const setTweetHandler = (text) => {
@@ -59,8 +53,15 @@ const ContainerMain = (props) => {
             });
 
     };
+    useEffect(() => {
+        getTweets();
 
-    useEffect(() => getTweets());
+        const interval = setInterval(() => {
+            getTweets()
+        }, TIME_LOAD_TWEETS);
+
+        return () => clearInterval(interval)
+    }, []);
 
     return (
         <tweetListContext.Provider value={{ tweetList, setTweetList: setTweetList }}>
