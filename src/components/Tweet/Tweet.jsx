@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, propNames } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import './Tweet.sass';
 
 const Tweet = (props) => {
