@@ -13,8 +13,10 @@ const ContainerMain = (props) => {
     const [btnTweetLoad, setBtnTweetLoad] = useState(false);
     const [alertDisplayText, setAlertDisplayText] = useState("");
     const [tweetList, setTweetList] = useState([]);
-
     const getTweets = () => {
+        
+        setAlertDisplayText("Loading tweets...");
+
         axios.get(URL_BASE_TWEET + "/tweet")
             .then((response) => {
                 return response.data.tweets;
