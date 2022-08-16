@@ -1,10 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Box, Button, Container, Flex, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react';
 import './PageProfile.sass'
 
 const PageProfile = (props) => {
-
-    const inputRef = useRef();
 
     const [input, setInput] = useState("");
     const handleInputChange = (e) => {
@@ -21,7 +19,6 @@ const PageProfile = (props) => {
                     <FormControl isInvalid={isError} isRequired>
                         <FormLabel>User Name</FormLabel>
                         <Input
-                            ref={inputRef}
                             className="inputSaveUserName"
                             type="text"
                             value={input}
