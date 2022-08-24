@@ -13,7 +13,7 @@ const TweetList = (props) => {
         <div className="TweetList">
             <VStack spacing={5}>
                 {tweetList.map((tweet) => {
-                    return <Tweet key={nanoid()} user={tweet.userName} text={tweet.content} date={tweet.date} />
+                    return <Tweet key={nanoid()} user={"user" + tweet.id} text={tweet?.data?.content} date={tweet?.data?.date} />
                 })}
             </VStack>
         </div>

@@ -16,7 +16,7 @@ const Navbar = () => {
     }
 
    return (
-        (auth?.currentUser?.email) ? (
+        (
             <div className="Navbar">
                     <Flex justifyContent="space-between" direction="row" gap={10} paddingLeft={10}>
                         <Flex justifyContent="space-between" gap={10}> 
@@ -29,7 +29,7 @@ const Navbar = () => {
                         </Flex>
                     </Flex>
             </div>
-        ) : (<></>)
+        )
    );
 }
 export default Navbar;

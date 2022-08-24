@@ -4,19 +4,10 @@ import Navbar from './components/Navbar/Navbar';
 import ContainerMain from './components/ContainerMain/ContainerMain';
 import PageProfile from './components/PageProfile/PageProfile';
 import FormLogin from './components/FormLogin/FormLogin';
-import useUserName from './utils/Db';
 import './App.sass';
 
 function App() {
 
-    const defaultUser = { 
-        userId: "0", 
-        name: "username", 
-        dateAdd: Date.now(),
-        dateUpd: Date.now(),
-    };
-
-    const [userName, setUserName] = useUserName(defaultUser);
 
     return (
         <div className="App">
@@ -24,8 +15,8 @@ function App() {
                 <Router>
                     <Navbar />
                     <Routes>
-                        <Route path="/" element={<ContainerMain userName={userName} setUserName={setUserName} />} />
-                        <Route path="/profile" element={<PageProfile userName={userName} setUserName={setUserName} />} />
+                        <Route path="/" element={<ContainerMain/>} />
+                        <Route path="/profile" element={<PageProfile />} />
                         <Route path="/signup" element={<FormLogin mode="signUp"/>} />
                         <Route path="/signin" element={<FormLogin mode="signIn"/>} />
                     </Routes>

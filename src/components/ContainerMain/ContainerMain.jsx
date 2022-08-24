@@ -3,38 +3,35 @@ import { formatRFC3339 } from 'date-fns';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import { auth } from '../../services/firebase';
+import { auth, db } from '../../services/firebase';
+import { collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, where } from "firebase/firestore";
 import tweetListContext from '../../contexts/tweetListContext';
 import TextAreaPost from '../TextAreaPost/TextAreaPost';
 import TweetList from '../TweetList/TweetList';
 import redirect from '../../utils/redirect';
+import { nanoid } from 'nanoid';
 import { URL_BASE_TWEET, MSG_SERVER_LOAD_ERROR, MSG_SERVER_SAVE_ERROR, TIME_LOAD_TWEETS } from '../../constants';
 import './ContainerMain.sass';
 
 const ContainerMain = (props) => {
 
     redirect(useNavigate());
-    
+
     const [btnTweetLoad, setBtnTweetLoad] = useState(false);
     const [alertDisplayText, setAlertDisplayText] = useState("");
     const [tweetList, setTweetList] = useState([]);
+
+    let tweetsRef = collection(db, "tweets");
+    let usersRef = collection(db, "users");
+
     const getTweets = () => {
-
         setAlertDisplayText("Loading tweets...");
-
-        axios.get(URL_BASE_TWEET + "/tweet")
-            .then((response) => {
-                return response.data.tweets;
-            })
-            .then((result) => {
-                let list = result ?? [];
-                setTweetList(list);
-                console.log("Tweets loaded");
-                setAlertDisplayText("");
-            }).catch((error) => {
-                console.error("Error loading tweets", error);
-                setAlertDisplayText(MSG_SERVER_LOAD_ERROR);
-            });
+        const unsub = onSnapshot(tweetsRef, (querySnapshot) => {
+            querySnapshot.docs.forEach((doc) => { console.log(doc.data().uid) });
+            setTweetList(querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() })));
+            setAlertDisplayText("");
+        })
+        return () => unsub();
     };
 
     const setTweetHandler = (text) => {
@@ -43,31 +40,32 @@ const ContainerMain = (props) => {
 
         const tweet = {
             content: text,
-            userName: props.userName.data().name,
+            userName: "user" + Date.now(),
             date: formatRFC3339(new Date(), { fractionDigits: 3 }),
+            uid: auth.currentUser.uid
         };
 
-        axios.post(URL_BASE_TWEET + "/tweet", tweet)
-            .then((response) => {
-                console.log("Tweet saved");
-                setAlertDisplayText("");
-                setTweetList((pre) => [tweet, ...pre]);
-                setBtnTweetLoad(false);
-            }).catch((error) => {
-                console.error("Error saving tweet", error);
-                setAlertDisplayText(MSG_SERVER_SAVE_ERROR);
-                setBtnTweetLoad(false);
-            });
+        const tweetsRef = doc(db, "tweets", nanoid());
+        setDoc(tweetsRef, tweet);
+        setAlertDisplayText("");
+        setTweetList((pre) => [tweet, ...pre]);
+        setBtnTweetLoad(false);
 
     };
 
     useEffect(() => {
         getTweets();
-        const interval = setInterval(() => {
-            getTweets()
-        }, TIME_LOAD_TWEETS);
+    }, []);
 
-        return () => clearInterval(interval)
+    useEffect(() => {
+        tweetList.forEach((tweet) => {
+            let refe = tweet.data.uid;
+            let docSnap = getDoc(refe).then((doc) => {
+                return doc.data().userName;
+            });
+        });
+
+
     }, []);
 
     return (

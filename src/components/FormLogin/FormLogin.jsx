@@ -12,7 +12,7 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from '@firebase/auth';
-import { auth } from '../../services/firebase';
+import { auth, googleSignInWithPopup } from '../../services/firebase';
 import { useNavigate } from "react-router-dom";
 import useLogin from '../../hooks/useLogin';
 import { FcGoogle } from 'react-icons/fc';
@@ -35,7 +35,6 @@ const FormLogin = (props) => {
         }
     };
     
-    console.log(formConfig[props.mode].title);
     onAuthStateChanged(auth, (currentUser) => {
         // if user is logged, no need neither to sign in nor to sign up
         if (currentUser) {
@@ -49,14 +48,13 @@ const FormLogin = (props) => {
     const [signInPassword, setLoginPassword] = useState("");
 
     const validateEmail = (email) => {
-        console.log(email);
         return /^[a-z0-9.]{1,64}@[a-z0-9.]{1,64}$/i.test(email);
     }
-    const handleSetUser = (data) => {
+    const handleSetUser = (data, mode) => {
         // regex for email
         const validUserName = validateEmail(data.email);
 
-        validUserName ? setUser(data) : alert("Invalid email");
+        validUserName ? setUser(data, mode) : alert("Invalid email");
     }
 
     return (
@@ -96,7 +94,7 @@ const FormLogin = (props) => {
                     mb={4}
                     bgColor="#1DA1F2"
                     w="full"
-                    onClick={() => handleSetUser({ email: signInUserName, password: signInPassword, callback: formConfig[props.mode].action })}
+                    onClick={() => handleSetUser({ email: signInUserName, password: signInPassword, callback: formConfig[props.mode].action }, props.mode)}
                 >
                     <Center>
                         <Text>{formConfig[props.mode].title}</Text>
@@ -109,6 +107,7 @@ const FormLogin = (props) => {
                     bgColor="white"
                     color="black"
                     borderColor="gray.900"
+                    onClick={googleSignInWithPopup}
                 >
                     <Center>
                         <Text>{formConfig[props.mode].title + " with Google"}</Text>
