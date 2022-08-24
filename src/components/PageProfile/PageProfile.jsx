@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Box, Button, Container, Flex, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react';
+import { useNavigate } from "react-router-dom";
+import redirect from '../../utils/redirect';
 import './PageProfile.sass'
 
 const PageProfile = (props) => {
 
+    redirect(useNavigate());
     const [input, setInput] = useState("");
     const handleInputChange = (e) => {
         setInput(e.target.value);

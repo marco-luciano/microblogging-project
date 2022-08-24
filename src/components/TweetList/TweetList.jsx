@@ -19,4 +19,5 @@ const TweetList = (props) => {
         </div>
     );
 }
+
 export default TweetList;
